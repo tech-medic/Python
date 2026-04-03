@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Surveillance Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>&#x1f4f9; AI Surveillance Dashboard</h1>
+        <div id="system-stats" class="stats-bar">
+            <span>FPS: <strong id="stat-fps">--</strong></span>
+            <span>CPU: <strong id="stat-cpu">--</strong>%</span>
+            <span>MEM: <strong id="stat-mem">--</strong>%</span>
+            <span>Uptime: <strong id="stat-uptime">--</strong></span>
+            <span>Detections: <strong id="stat-detections">--</strong></span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Live Stream -->
+        <section class="panel stream-panel">
+            <h2>Live Feed</h2>
+            <div class="stream-container">
+                <img id="live-stream" src="/stream" alt="Live camera feed">
+            </div>
+        </section>
+
+        <!-- Real-time Detection Feed -->
+        <section class="panel events-panel">
+            <h2>Real-time Detections</h2>
+            <div id="live-events" class="event-feed"></div>
+        </section>
+
+        <!-- Detection Log -->
+        <section class="panel log-panel">
+            <h2>Detection Log</h2>
+            <div class="filters">
+                <select id="filter-class">
+                    <option value="">All Classes</option>
+                </select>
+                <input type="date" id="filter-from" placeholder="From">
+                <input type="date" id="filter-to" placeholder="To">
+                <button id="btn-filter" onclick="loadEvents()">Filter</button>
+            </div>
+            <div class="table-wrap">
+                <table id="events-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Class</th>
+                            <th>Confidence</th>
+                            <th>Snapshot</th>
+                            <th>Clip</th>
+                        </tr>
+                    </thead>
+                    <tbody id="events-body"></tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <button id="btn-prev" onclick="changePage(-1)" disabled>Prev</button>
+                <span id="page-info">Page 1</span>
+                <button id="btn-next" onclick="changePage(1)">Next</button>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="panel gallery-panel">
+            <h2>Snapshot Gallery</h2>
+            <div id="gallery" class="gallery-grid"></div>
+        </section>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <img id="lightbox-img" src="" alt="Snapshot">
+            <video id="lightbox-video" controls style="display:none"></video>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.env
+data/clips/*
+data/snapshots/*
+!data/clips/.gitkeep
+!data/snapshots/.gitkeep
+__pycache__/
+*.pyc
+*.pt
+*.onnx

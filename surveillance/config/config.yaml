@@ -1,0 +1,55 @@
+# AI Surveillance Camera Configuration
+
+camera:
+  device: /dev/video0
+  width: 1280
+  height: 720
+  fps: 15
+  reconnect_delay_sec: 5
+  max_reconnect_attempts: 0  # 0 = unlimited
+
+detection:
+  confidence_threshold: 0.45
+  alert_classes:
+    - person
+    - car
+    - truck
+    - motorcycle
+    - bicycle
+    - dog
+    - cat
+    - bird
+  model: yolov8n.pt  # nano model for CPU; use yolov8s.pt for GPU
+  input_size: 640
+
+motion:
+  enabled: true
+  sensitivity: 25        # lower = more sensitive (pixel diff threshold)
+  min_area: 3000         # minimum contour area in pixels
+  blur_kernel: 21        # gaussian blur kernel size (odd number)
+  cooldown_sec: 2        # seconds between motion triggers
+
+recording:
+  clip_duration_sec: 10
+  snapshot_quality: 85    # JPEG quality 1-100
+  pre_buffer_sec: 2      # seconds of pre-event buffer
+
+alerts:
+  telegram:
+    enabled: false
+    # Set via environment variables:
+    # TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+    cooldown_sec: 30      # minimum seconds between alerts
+    include_snapshot: true
+
+storage:
+  clips_dir: /app/data/clips
+  snapshots_dir: /app/data/snapshots
+  retention_days: 7       # auto-delete files older than this
+  cleanup_interval_hours: 6
+
+web:
+  host: 0.0.0.0
+  port: 8080
+  stream_quality: 60      # MJPEG stream JPEG quality
+  max_stream_fps: 10
